@@ -1,0 +1,27 @@
+version: 2
+
+models:
+  - name: transformation_data
+    description: "Number of airports per country"
+    tests:
+      - unique:
+          column_name: country  # each country should appear once
+      - not_null:
+          column_name: country  # every row must have a country
+
+    columns:
+      - name: total_airports
+        description: "Count of airports in each country"
+        tests:
+          - not_null         # the count must always have a value
+          - accepted_range:
+              min_value: 0  # should never be negative
+          - assert_non_negative  #Test Macros we have created
+
+#unique on country ensures each country appears only once.
+
+#not_null on country ensures no missing country values.
+
+#not_null on total_airports ensures the count is present.
+
+#accepted_range with min_value: 0 ensures counts are zero or positive (no negative airport counts).
